@@ -5,4 +5,4 @@ addons:
         - ubuntu-toolchain-r-test
       packages:
         - g++-7
-script: make
+script: CXX='g++-7' make version
