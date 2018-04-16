@@ -37,6 +37,8 @@ int main( int argc, char** argv ){
 		auto argument = argv[1];
 		auto queueName = argv[2];
 
+		activemq::library::ActiveMQCPP::initializeLibrary();
+
     try {
         ConnectionFactory* connectionFactory = ConnectionFactory::createCMSConnectionFactory( argument );
         Connection* connection = connectionFactory->createConnection();
