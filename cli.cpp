@@ -6,7 +6,6 @@
  * Compilation Notes:
  *
  * + You need to provide the include path for the CMS headers.
- * + Still need to test this...it was recreated from memory and the Apache examples.
  */
 
 //libstdc++
