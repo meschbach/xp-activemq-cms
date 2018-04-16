@@ -30,34 +30,37 @@ using namespace std;
 using namespace cms;
 
 int main( int argc, char** argv ){
-    if( argc < 2 ) {
+    if( argc < 3 ) {
         cerr << "Usage: " << argv[0] << " connection-string" << endl;
         return -1;
     }
+		auto argument = argv[1];
+		auto queueName = argv[2];
 
     try {
-        ConnectionFactory connectionFactory( ConnectionFactory::createCMSConnectionFactory( argv[1] ) );
-        Connection connection( connectionFactory.createConnection() );
-        Session session( connection.createSession() );
-        Queue queue(session);
-        MessageConsumer consumer( session.createConsumer(queue) );
+        ConnectionFactory* connectionFactory = ConnectionFactory::createCMSConnectionFactory( argument );
+        Connection* connection = connectionFactory->createConnection();
+        Session* session = connection->createSession();
+        Queue* queue = session->createQueue( queueName );
+        MessageConsumer* consumer = session->createConsumer(queue);
 
         bool done = false;
         while( !done ){
-            Message message( consumer.receive() );
-            const TextMessage message = dynamic_cast<const TextMessage>(message);
-            if( message == null ){
+            Message* unknownMessageType = consumer->receive();
+            const TextMessage* message = dynamic_cast<const TextMessage*>(unknownMessageType);
+            if( message == NULL ){
                 cout << "[Received not a text message]" << std::endl;
             } else {
-                auto message = message.getText();
-                if( message == "stop" ) {
+                auto body = message->getText();
+                if( body == "stop" ) {
                     done = true;
                 }
-                cout << "[Message]" << message << std::endl;
+                cout << "[Message]" << body << std::endl;
             }
         }
     } catch( CMSException &e ){
-        cerr << e.printStackTrace() << endl;
+			e.printStackTrace();
     }
     return 0;
 }
+
