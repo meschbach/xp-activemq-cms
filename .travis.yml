@@ -5,4 +5,6 @@ addons:
         - ubuntu-toolchain-r-test
       packages:
         - g++-7
+        - libapr1
+        - libapr1-dev
 script: ./build-on-travis.sh
